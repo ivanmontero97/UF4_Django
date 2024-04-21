@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style></style>
+<body>
+    {% include 'header.html' %}
+    <h1>INFORMACIÓN ESTUDIANTES TIC DE BARCELONA</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Apellidos</th>
+            <th>Edad</th>
+            <th>Rol</th>
+            <th>Curso</th>
+            <th></th>
+        </tr>
+        {% for student in students %}
+        <tr>
+            <td>{{ student.id }}</td>
+            <td>{{ student.nombre }}</td>
+            <td>{{ student.apellido }}</td>
+            <td>{{ student.edad }}</td>
+            <td>{{ student.rol }}</td>
+            <td>{{ student.curso }}</td>
+            <td><a href="{% url 'student' student.id %}"> +INFO</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <div class="enlaces">
+        <a href="{% url 'students' %}">Estudiants</a>
+        <a href="{% url 'teachers' %}">Professors</a>
+    </div>
+</body>
+</html>

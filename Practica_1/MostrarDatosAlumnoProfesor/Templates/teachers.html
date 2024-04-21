@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% include 'header.html' %}
+    <h1>INFORMACIÓN PROFESORES TIC DE BARCELONA</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Apellidos</th>
+            <th>Edad</th>
+            <th>Rol</th>
+            <th>Curso</th>
+            <th></th>
+
+        </tr>
+        {% for teacher in teachers %}
+        <tr>
+            <td>{{ teacher.id }}</td>
+            <td>{{ teacher.nombre }}</td>
+            <td>{{ teacher.apellido }}</td>
+            <td>{{ teacher.edad }}</td>
+            <td>{{ teacher.rol }}</td>
+            <td>{{ teacher.curso }}</td>
+            <td><a href="{% url 'teacher' teacher.id %}"> +INFO</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <div class="enlaces">
+        <a href="{% url 'students' %}">Estudiantes</a>
+        <a href="{% url 'teachers' %}">Professores</a>
+    </div>
+
+</body>
+</html>
