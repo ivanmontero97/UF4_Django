@@ -19,5 +19,7 @@ from django.urls import path,include
 from MostrarDatosAlumnoProfesor.views import index
 urlpatterns = [
     # path('admin/', admin.site.urls),
-    path('',include('MostrarDatosAlumnoProfesor.urls'))
+    path('',include('MostrarDatosAlumnoProfesor.urls')),
+    path('admin/',admin.site.urls)
+
 ]

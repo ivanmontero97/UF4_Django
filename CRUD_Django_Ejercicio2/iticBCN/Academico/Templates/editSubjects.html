@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %} Tabla de usuarios {% endblock %}
+
+{% block content %}
+<div class="row bg-info bg-gradient pb-2">
+    <h1>Editar usuario : {{ data.user.name }} {{ data.user.surname }}</h1>
+    <!-- Este estilo lo esta cogiendo del directorio estatico -->
+    <form action="/update/user/{{ data.user.id }}" method="POST">
+        {% csrf_token %}
+        {{forms.as_p}}
+        <div class="form-group m-3">
+            <label for="ejemploNombre">Nombre</label>
+            <input type="text" name="nombre" class="form-control" id="nombre" aria-describedby="nombreInput" placeholder="{{data.user.name}}">
+        </div>
+        <div class="form-group m-3">
+            <label for="ejemploApellido">Apellido</label>
+            <input type="text" name="apellido" class="form-control" id="apellido" placeholder="{{data.user.surname}}">
+        </div>
+        <div class="form-group m-3">
+            <label for="ejemploRol">Seleccionar Rol</label>
+            <select class="form-select" name="rol" aria-placeholder="{{data.user.rol.id}}">
+                {% for r in data.rol %}
+                <option value="{{r.id}}">{{r.nombre}}</option>
+                {% endfor %}
+            </select>                
+        </div>
+        <button type="submit" class="btn btn-primary m-2 btn-sm">Guardar</button>        
+    </form>
+        <h4 class="text-white">Asignaturas actuales</h4>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        {% if data.user.rol.id == 2 %}
+                        <th class="text-center bg-primary text-white">Asignaturas matriculadas</th>
+                        {% elif data.user.rol.id == 1 %}
+                        <th class="text-center bg-primary text-white">Asignaturas impartidas</th>
+                        {% endif %}
+                        <th class="text-center bg-primary text-white">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for subject in data.subjects %}
+                    <tr>
+                        <td class="text-center">
+                            {{ subject.subject.name }}
+                        </td>
+                        <td class="text-center"><a class="btn btn-danger btn-sm m-0 text-center" href="{% url 'deleteRelationalSubject' pk=data.user.id pkSubject=subject.subject.id %}">Eliminar</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <h4 class="text-white">Pendientes de matricularse</h4>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr >
+                        {% if data.user.rol.id == 2 %}
+                        <th class="text-center bg-dark text-white">Asignaturas no matriculadas</th>
+                        {% elif data.user.rol.id == 1 %}
+                        <th class="text-center bg-dark text-white">Asignaturas impartidas</th>
+                        {% endif %}
+                        <th class="text-center bg-dark text-white">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for subject in data.not_user_subjects %}
+                    <tr>
+                        <td class="text-center">
+                            {{ subject.name }}
+                        </td>
+                        {% if data.user.rol.id == 2 %}
+                        <td class="text-center"><a class="btn btn-info btn-sm m-0 text-center" href="{% url 'addRelationalSubject' pk=data.user.id pkSubject=subject.id %}">Matricularse</a></td>
+                        {% elif data.user.rol.id == 1 %}
+                        <td class="text-center"><a class="btn btn-info btn-sm m-0 text-center" href="{% url 'addRelationalSubject' pk=data.user.id pkSubject=subject.id %}">Impartir asignatura</a></td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+</div>
+{% endblock %}

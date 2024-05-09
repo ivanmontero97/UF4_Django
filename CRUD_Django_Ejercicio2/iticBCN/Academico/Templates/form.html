@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %} Tabla de usuarios {% endblock %}
+
+{% block content %}
+    <div class="row bg-info bg-gradient pb-2">
+        <h1>Formulario de inserción de datos</h1>
+        <form action="creacionUsuario" method="POST">
+            {% csrf_token %}
+            {{forms.as_p}}
+            <div class="form-group m-3">
+                <label for="ejemploNombre">Nombre</label>
+                <input type="text" name="nombre" class="form-control" id="nombre" aria-describedby="nombreInput" placeholder="Introduce tu nombre">
+            </div>
+            <div class="form-group m-3">
+                <label for="ejemploApellido">Apellido</label>
+                <input type="text" name="apellido" class="form-control" id="apellido" placeholder="Apellido">
+            </div>
+            <div class="form-group m-3">
+                <label for="ejemploRol">Seleccionar Rol</label>
+                <select class="form-select" name="rol">
+                    {% for rol in roles %}
+                    <option value="{{rol.id}}">{{rol.nombre}}</option>
+                    {% endfor %}
+                </select>                
+            </div>
+            <div class="table-responsive w-50 ml-1">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th  class="bg-primary text-white "></th>
+                            <th class="bg-primary text-white ">Seleccionar asignaturas a matricularse o impartir</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for subject in object_list %}
+                        <tr>
+                            <td><input type="checkbox" name="subject_{{subject.id}}" value="{{subject.id}}"></td></td>
+                            <td><span>{{ subject.name }}</span> </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+            </div>
+            <button type="submit" class="btn btn-primary">Crear usuario</button>
+        </form>
+    </div>
+{% endblock %}

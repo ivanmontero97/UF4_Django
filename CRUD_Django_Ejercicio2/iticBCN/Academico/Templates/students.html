@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %} Tabla de usuarios {% endblock %}
+
+{% block content %}
+        <div class="row bg-info bg-gradient pb-2">
+                <h1>Listado de Alumnos</h1> <!-- Este estilo lo esta cogiendo del directorio estatico -->
+                <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="bg-primary text-white">#</th>
+                                    <th class="bg-primary text-white">ID</th>
+                                    <th class="bg-primary text-white">Nombre</th>
+                                    <th class="bg-primary text-white">Apellidos</th>
+                                    <th class="bg-primary text-white">Rol</th>
+                                    <th class="text-center bg-primary text-white">Asignaturas</th>
+                                    <th class="bg-primary text-white"></th>
+                                    <th class="bg-primary text-white"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for c in object_list %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{c.id}}</td>
+                                    <td>{{c.name}}</td>
+                                    <td>{{c.surname}}</td>
+                                    <td>{{c.rol}}</td>
+                                    <td>
+                                                {% for subject in subjectsByUser %}
+                                                {% if subject.user_id == c.id %}
+                                               <span class="bg-secondary bg-gradient rounded p-1">{{ subject.subject }}</span> 
+                                                {% endif %}
+                                                {% endfor %}
+                                    </td>
+                                    <td class="text-center"><a href="{% url 'deleteUser' c.id %}" class="btn btn-danger btn-sm m-0 text-center">Eliminar</a></td>
+                                    <td class="text-center">  <a href="{% url 'edit' c.id %}" class="btn btn-info btn-sm m-0 text-center">Editar</a></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                </div>
+        </div>
+{% endblock %}
